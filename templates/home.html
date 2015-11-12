@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    {{msg}}
+	{% from "_form_helpers.html" import render_field %}
+	<form method=post action="/">
+	  <dl>
+	    {{ render_field(lunch_ship_form.departure_time) }}
+	    {{ render_field(lunch_ship_form.destination) }}
+	    {{ render_field(lunch_ship_form.crew) }}
+	  </dl>
+	  <p><input type=submit value=Register>
+	</form>
 {% endblock %}
