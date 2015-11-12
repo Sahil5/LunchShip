@@ -45,7 +45,7 @@ def index():
 
     return render_template(
         "login.html",
-        login_form = login_form
+        login_form=login_form
     )
 
 @app.route("/new_ship", methods=['GET', 'POST'])
