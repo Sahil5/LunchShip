@@ -33,28 +33,15 @@ class User(UserMixin):
 def load_user(username):
     return User(username)
 
-
-# @app.route("/", methods=['GET', 'POST'])
-# def display_homepage():
-    lunch_ship_form = CreateLunchShip(request.form)
-    if request.method == 'POST' and lunch_ship_form.validate():
-        pass
-
-    return render_template(
-        "home.html",
-        lunch_ship_form=lunch_ship_form
-    )
-
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        
         username = current_user.get_id()
         session['username'] = username
 
         return redirect(url_for('create_new_ship'))
 
-    return redirect(url_for('login'))
+    return render_template("login.html")
 
 @app.route("/new_ship", methods=['GET', 'POST'])
 def create_new_ship():
@@ -67,21 +54,8 @@ def create_new_ship():
         lunch_ship_form=lunch_ship_form
     )
 
-
-@app.route('/login')
-def login():
-    messages = ', '.join([str(msg) for msg in get_flashed_messages()])
-    return '''
-        <p>{}</p>
-        <form method="post">
-            <p>Username: <input name="username" type="text"></p>
-            <p>Password: <input name="password" type="password"></p>
-            <input type="submit">
-        </form>
-    '''.format(messages)
-
 @app.route('/login', methods=['post'])
-def login_check():
+def login():
     username = request.form['username']
     password = request.form['password']
     if check_auth(username, password):
