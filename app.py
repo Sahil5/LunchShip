@@ -7,7 +7,7 @@ from flask import Flask, request
 from flask import render_template
 import secrets
 
-from helpers.forms import CreateLunchShip
+from helpers.forms import CreateLunchShip, LoginForm
 
 
 app = Flask(__name__)
@@ -41,13 +41,19 @@ def index():
 
         return redirect(url_for('create_new_ship'))
 
-    return render_template("login.html")
+    login_form = LoginForm(request.form)
+
+    return render_template(
+        "login.html",
+        login_form = login_form
+    )
 
 @app.route("/new_ship", methods=['GET', 'POST'])
 def create_new_ship():
     lunch_ship_form = CreateLunchShip(request.form)
+
     if request.method == 'POST' and lunch_ship_form.validate():
-        pass
+        return render_template("new_ships.html")
 
     return render_template(
         "home.html",
@@ -58,10 +64,16 @@ def create_new_ship():
 def login():
     username = request.form['username']
     password = request.form['password']
-    if check_auth(username, password):
-        login_user(User(username))
+
+    login_form = LoginForm(request.form)
+
+    if login_form.validate():
+        if check_auth(username, password):
+            login_user(User(username))
+        else:
+            flash('Wrong username or password')
     else:
-        flash('Username or password incorrect')
+        flash('Please fill out all fields')
 
     return redirect(url_for('index'))
 
