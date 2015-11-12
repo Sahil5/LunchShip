@@ -43,22 +43,4 @@ def check_auth(username, password):
     return True
 
 
-def authenticate():
-    return Response(
-        status=401,
-        headers={'WWW-Authenticate': 'Basic realm="Login Required"'},
-    )
-
-
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        session['username'] = auth.username
-        return f(*args, **kwargs)
-    return decorated
-
-
-__all__ = ['requires_auth']
+__all__ = ['check_auth']
