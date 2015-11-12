@@ -6,6 +6,7 @@ from flask import render_template
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def display_homepage():
 
@@ -13,6 +14,7 @@ def display_homepage():
         "home.html",
         msg="hello world"
     )
+
 
 if __name__ == "__main__":
     app.debug = True
