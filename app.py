@@ -38,16 +38,14 @@ def index():
             "home.html",
             msg="hello {}".format(username),
         )
+    return show_login()
 
-    return redirect(url_for('login'))
 
-
-@app.route('/login')
-def login():
+def show_login():
     messages = ', '.join([str(msg) for msg in get_flashed_messages()])
     return '''
         <p>{}</p>
-        <form method="post">
+        <form action="/login" method="post">
             <p>Username: <input name="username" type="text"></p>
             <p>Password: <input name="password" type="password"></p>
             <input type="submit">
@@ -55,7 +53,7 @@ def login():
     '''.format(messages)
 
 @app.route('/login', methods=['post'])
-def login_check():
+def login():
     username = request.form['username']
     password = request.form['password']
     if check_auth(username, password):
