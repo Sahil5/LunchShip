@@ -2,12 +2,14 @@
 import app
 from functools import wraps
 from flask import request, Response, session
+from flask import render_template
 from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user
 
 import contextlib
 import os
 import ldap
 import secrets
+from functools import wraps
 
 
 os.environ['LDAPTLS_REQCERT'] = secrets.LDAPTLS_REQCERT
@@ -50,3 +52,12 @@ class User(UserMixin):
 @app.login_manager.user_loader
 def load_user(username):
     return User(username)
+
+
+def requires_login(f):
+      @wraps(f)
+      def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+           return render_template("login.html")
+        return f(*args, **kwargs)
+      return decorated_function
