@@ -38,19 +38,8 @@ def index():
             "home.html",
             msg="hello {}".format(username),
         )
-    return show_login()
+    return render_template("login.html")
 
-
-def show_login():
-    messages = ', '.join([str(msg) for msg in get_flashed_messages()])
-    return '''
-        <p>{}</p>
-        <form action="/login" method="post">
-            <p>Username: <input name="username" type="text"></p>
-            <p>Password: <input name="password" type="password"></p>
-            <input type="submit">
-        </form>
-    '''.format(messages)
 
 @app.route('/login', methods=['post'])
 def login():

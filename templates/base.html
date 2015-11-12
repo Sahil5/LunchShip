@@ -6,7 +6,9 @@
 <body>
     <!-- Main content of the page is inserted in block body -->
     <nav>
+        {% if current_user.is_authenticated %}
         <a href="/logout">Log Out</a>
+        {% endif %}
     </nav>
     {% block body %}
     {% endblock %}
