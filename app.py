@@ -7,12 +7,11 @@ from flask import render_template
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
+def display_homepage():
 
     return render_template(
-	"home.html",
-	msg="hello world"
-
+        "home.html",
+        msg="hello world"
     )
 
 if __name__ == "__main__":
