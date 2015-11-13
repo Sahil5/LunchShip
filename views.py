@@ -3,9 +3,9 @@ import datetime
 from app import app
 from flask import flash, redirect, url_for, request, render_template
 from flask.ext.login import current_user, login_user, logout_user
-from auth import check_auth, requires_login, User, show_login, require_login
+from auth import check_auth, requires_login, User, render_login
 from helpers.forms import LoginForm, AddShip
-from helpers.view import user_form_handler
+from helpers.view import handle_user_form
 
 from logic import create_ship
 from logic import join_lunch_ship
@@ -16,6 +16,15 @@ from logic import get_all_sailing_ships
 @requires_login
 def index():
     return redirect(url_for('show_all_ships'))
+
+
+@app.route('/ship/add', methods=['GET'])
+@requires_login
+def add_ship():
+    return render_template(
+        'home.html',
+        form=AddShip(request.form),
+    )
 
 
 def add_ship_db(username, form):
@@ -29,26 +38,14 @@ def add_ship_db(username, form):
     )
 
 
-create_new_ship = user_form_handler(
-    AddShip,
-    "home.html",
-    lambda form: form.captain.data,
-    add_ship_db,
-    'show_all_ships',
-)
-
-
-@app.route('/ship/add', methods=['GET'])
-@requires_login
-def add_ship():
-    return render_template(
-        'home.html',
-        form=AddShip(request.form),
-    )
-
 @app.route('/ship/add', methods=['POST'])
 def add_ship_post():
-    return create_new_ship()
+    return handle_user_form(
+        AddShip(request.form),
+        "home.html",
+        add_ship_db,
+        'show_all_ships',
+    )
 
 
 @app.route('/ships/all')
