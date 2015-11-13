@@ -3,6 +3,9 @@
 {% block body %}
 
     {% from "_form_helpers.html" import render_field %}
+
+    <img src="/static/img/pirate-ship.gif">
+
     <form method=post action="/login">
       <dl>
         {{ render_field(login_form.username) }}
