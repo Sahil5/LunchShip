@@ -167,6 +167,7 @@ def edit_ship_post(ship_id):
 
 
 @app.route('/leaderboards')
+@requires_login
 def show_leaderboard():
     return render_template(
         'leaderboards.html',
