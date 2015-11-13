@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import print_function
-from __future__ import unicode_literals
-
+import app
 from functools import wraps
 from flask import request, Response, session
+from flask import render_template
+from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user
 
 import contextlib
 import os
 import ldap
 import secrets
+from functools import wraps
 
 
 os.environ['LDAPTLS_REQCERT'] = secrets.LDAPTLS_REQCERT
@@ -43,4 +43,21 @@ def check_auth(username, password):
     return True
 
 
-__all__ = ['check_auth']
+class User(UserMixin):
+    def __init__(self, username):
+        self.id = username
+
+
+# Flask-Login use this to reload the user object from the user ID stored in the session
+@app.login_manager.user_loader
+def load_user(username):
+    return User(username)
+
+
+def requires_login(f):
+      @wraps(f)
+      def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+           return render_template("login.html")
+        return f(*args, **kwargs)
+      return decorated_function
