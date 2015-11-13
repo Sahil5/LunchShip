@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Most Ships Captained</h1>
+    <ol class="list-group">
+        {% for count, captain in ships_captained %}
+            <li class="list-group-item">
+                {{ captain }}: {{ count }}
+            </li>
+        {% endfor %}
+    </ol>
+    <h1>Most Ships Crewed</h1>
+    <ol class="list-group">
+        {% for sailor, count in ships_crewed %}
+            <li class="list-group-item">
+                {{ sailor }}: {{ count }}
+            </li>
+        {% endfor %}
+    </ol>
+    <h1>Biggest Ships</h1>
+    <ol class="list-group">
+        {% for destination, captian, count in biggest_ships %}
+            <li class="list-group-item">
+                {{destination}}, captained by {{captain}}, {{count}} crew
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
