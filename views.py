@@ -3,8 +3,9 @@ from flask import flash, redirect, url_for, request, render_template, session
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User
 from helpers.forms import CreateLunchShip, LoginForm
-from logic import create_ship
 
+from logic import create_ship
+from presentation.ships import get_all_lunch_ship_presenters
 
 @app.route("/")
 def index():
@@ -28,12 +29,20 @@ def create_new_ship():
     if request.method == 'POST' and lunch_ship_form.validate():
         create_ship(session["username"], lunch_ship_form.destination.data, lunch_ship_form.departure_time.data, lunch_ship_form.crew.data)
 
-        return render_template("all_ships.html")
+        return redirect(url_for('show_all_ships'))
 
     return render_template(
         "home.html",
         lunch_ship_form=lunch_ship_form
     )
+
+@app.route('/all_ships')
+def show_all_ships():
+    lunch_ship_presenters = get_all_lunch_ship_presenters()
+    print lunch_ship_presenters
+
+    return render_template("all_ships.html", lunch_ship_presenters=lunch_ship_presenters)
+
 
 @app.route('/login', methods=['post'])
 def login():

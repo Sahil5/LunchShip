@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
 {% block body %}
-	
+    <h1>Current Lunches</h1>
+    <ul>
+        {% for lunch_ship_presenter in lunch_ship_presenters %}
+            <li>
+                <p>{{ lunch_ship_presenter.time_created }}</p>
+                <p>{{ lunch_ship_presenter.departure_time }}</p>
+                <p>{{ lunch_ship_presenter.destination }}</p>
+                <p>{{ lunch_ship_presenter.crew }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
