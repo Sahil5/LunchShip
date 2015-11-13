@@ -4,7 +4,7 @@ from wtforms import Form, DateTimeField, PasswordField, TextField, validators
 
 class CreateLunchShip(Form):
     departure_time = DateTimeField('Departure Time')
-    destination = TextField('Destination', [validators.Length(min=6, max=35)])
+    destination = TextField('Destination', [validators.input_required()])
     crew = TextField('Crew')
 
 class LoginForm(Form):
