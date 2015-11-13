@@ -5,7 +5,7 @@
     <ol class="list-group">
         {% for count, captain in ships_captained %}
             <li class="list-group-item">
-                {{ captain }}: {{ count }}
+                {{ captain }}: {{ count }} ships captained
             </li>
         {% endfor %}
     </ol>
@@ -13,7 +13,7 @@
     <ol class="list-group">
         {% for sailor, count in ships_crewed %}
             <li class="list-group-item">
-                {{ sailor }}: {{ count }}
+                {{ sailor }}: {{ count }} ships joined
             </li>
         {% endfor %}
     </ol>
