@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <ul>
-    {% for msg in get_flashed_messages() %}
-        <li>{{ msg }}</li>
-    {% endfor %}
-    </ul>
 
     {% from "_form_helpers.html" import render_field %}
     <form method=post action="/login">

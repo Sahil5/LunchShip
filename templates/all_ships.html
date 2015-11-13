@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <ul>
-    {% for msg in get_flashed_messages() %}
-        <li>{{ msg }}</li>
-    {% endfor %}
-    </ul>
-
     <h1 class="text-center header--yelp">Current Lunches</h1>
 
     {% for sailing_ship in sailing_ships %}
