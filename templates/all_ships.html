@@ -37,7 +37,7 @@
                     {% if current_user.get_id() == sailing_ship.captain_id %}
                         <a href="/edit_ship" class="btn btn-info">Edit Ship</a>
                     {% else %}
-                        <a href="/join_ship" class="btn btn-primary">Join Ship</a>
+                        <a href="{{ '/ship/%d/join' % sailing_ship.id }}" class="btn btn-primary">Join Ship</a>
                     {% endif %}
                 </div>
             </div>

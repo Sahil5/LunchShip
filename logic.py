@@ -1,6 +1,5 @@
 from app import db
 import datetime
-import time
 
 from models.ship import Ship
 from models.crew import Crew
@@ -13,6 +12,12 @@ def create_ship(captain_id, destination, departure_time):
     db.session.commit()
 
     db.session.add(Crew(new_ship.id, captain_id))
+    db.session.commit()
+
+
+def join_lunch_ship(ship_id, sailor_id):
+    new_crew_member = Crew(ship_id, sailor_id)
+    db.session.add(new_crew_member)
     db.session.commit()
 
 
