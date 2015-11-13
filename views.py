@@ -26,23 +26,22 @@ def add_ship():
         form=AddShip(request.form),
     )
 
-def add_ship_db(username, form):
-    create_ship(
-        username,
-        form.destination.data,
-        datetime.datetime.combine(
-            datetime.date.today(),
-            form.departure_time.data,
-        ),
-    )
-
 
 @app.route('/ship/add', methods=['POST'])
 def add_ship_post():
+    def on_success(username, form):
+        create_ship(
+            username,
+            form.destination.data,
+            datetime.datetime.combine(
+                datetime.date.today(),
+                form.departure_time.data,
+            ),
+        )
     return handle_user_form(
         AddShip(request.form),
         "home.html",
-        add_ship_db,
+        on_success,
         'show_all_ships',
     )
 
