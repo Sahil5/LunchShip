@@ -1,15 +1,15 @@
 import datetime
-
 from app import app
 from flask import flash, redirect, url_for, request, render_template, jsonify
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, render_login
-from helpers.forms import LoginForm, AddShip, JoinShip
+from helpers.forms import LoginForm, AddShip, EditShip, JoinShip
 from helpers.view import handle_user_form
-
 from logic import create_ship
 from logic import join_lunch_ship
 from logic import get_all_sailing_ships
+from logic import get_ship_by_id
+from logic import edit_ship_by_id
 
 
 @app.route("/")
@@ -90,10 +90,57 @@ def join_ship_post(ship_id):
     )
 
 
-@app.route('/ship/<int:ship_id>/edit')
+@app.route('/ship/<int:ship_id>/edit', methods=['GET'])
 @requires_login
 def edit_ship(ship_id):
-    return render_template("edit_ship.html")
+    ship = get_ship_by_id(ship_id)
+
+    if not ship:
+        flash("This ship doesn't exist")
+        return redirect(url_for('show_all_ships'))
+    if ship.captain_id != current_user.get_id(): 
+        flash('You do not own this ship')
+        return redirect(url_for('show_all_ships'))
+    if ship.departure_time < datetime.datetime.now():
+        flash('This ship already left')
+        return redirect(url_for('show_all_ships'))
+
+    return render_template(
+        "edit_ship.html",
+        ship=ship,
+        form=EditShip(request.form),
+        )
+
+
+@app.route('/ship/<int:ship_id>/edit', methods=['POST'])
+@requires_login
+def edit_ship_post(ship_id):
+    edit_ship_form = EditShip(request.form)
+    ship = get_ship_by_id(ship_id)
+
+    if not ship:
+        flash("This ship doesn't exist")
+        return redirect(url_for('show_all_ships'))
+    if ship.captain_id != current_user.get_id(): 
+        flash('You do not own this ship')
+        return redirect(url_for('show_all_ships'))
+    if ship.departure_time < datetime.datetime.now():
+        flash('This ship already left')
+        return redirect(url_for('show_all_ships'))
+
+    intended_departure = edit_ship_form.departure_time.data
+    current_date = datetime.date.today()
+    to_compare = datetime.datetime.combine(current_date, intended_departure)
+
+    if to_compare < datetime.datetime.now():
+        flash('The time you have entered has already passed')
+        return redirect(url_for('show_all_ships'))
+
+    destination = edit_ship_form.destination.data
+    edit_ship_by_id(ship.id, to_compare, destination)
+
+    flash('Your ship has been updated!')
+    return redirect(url_for('show_all_ships'))
 
 
 @app.route('/login', methods=['post'])

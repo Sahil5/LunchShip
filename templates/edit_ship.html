@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
-	<p>Edit ship page</p>
+	{% from "_form_helpers.html" import render_field %}
+	<form method=post action="{{ '/ship/%d/edit' % ship.id }} ">
+	  <dl>
+	    {{ render_field(form.departure_time) }}
+	    {{ render_field(form.destination) }}
+	  </dl>
+	  <p><input type=submit value=Update>
+	</form>
 {% endblock %}

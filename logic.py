@@ -29,5 +29,27 @@ def get_all_sailing_ships():
     ).filter(
         Ship.departure_time > datetime.datetime.now()
     ).order_by(
-        Ship.departure_time.desc()
+        Ship.departure_time.asc()
     ).all()
+
+def get_ship_by_id(ship_id):
+    return db.session.query(
+        Ship
+    ).options(
+        joinedload('crew')
+    ).filter(
+        Ship.id == ship_id
+    ).one()
+
+def edit_ship_by_id(ship_id, departure_time, destination):
+    db.session.query(
+        Ship
+    ).filter(
+        Ship.id == ship_id
+    ).update({
+        Ship.departure_time: departure_time,
+        Ship.destination: destination,
+    })
+
+    db.session.commit()
+   
