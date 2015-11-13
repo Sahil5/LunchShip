@@ -15,12 +15,14 @@
                         🚢
                         {{ sailing_ship.destination }}
                         @
-                        {{ sailing_ship.departure_time }}
+                        {{ sailing_ship.departure_time.strftime("%-I:%M %p, %x") }}
                     </h3>
                 </div>
                 <div class="panel-body">
                     <p class="text-muted">
-                        Created by {{ sailing_ship.captain_id }} @ {{ sailing_ship.time_created }}
+                        Created by {{ sailing_ship.captain_id }}
+                        @
+                        {{ sailing_ship.time_created.strftime("%-I:%M %p, %x") }}
                     </p>
                     <ul class="list-group">
                         {% for crew_member in sailing_ship.crew %}
