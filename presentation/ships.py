@@ -1,4 +1,10 @@
 from collections import namedtuple
+import datetime
+import time
+from app import db
+
+from models.ship import Ship
+from models.crew import Crew
 
 LunchShip = namedtuple('LunchShip', [
 	'captain_id',
@@ -8,40 +14,26 @@ LunchShip = namedtuple('LunchShip', [
 	'crew'
 ])
 
-dummy_time = [
-	{
-		'captain_id': 'stella',
-		'time_created': "2015-11-12 01:10:05",
-		'departure_time': "2015-11-12 02:01:05",
-		'destination': "McDonalds",
-		'crew': ['Stella', 'Ben', 'Nathan']
-	},
-	{
-		'captain_id': 'stella',
-		'time_created': "2015-11-12 01:01:05",
-		'departure_time': "2015-11-12 03:01:05",
-		'destination': "Senior Sisig",
-		'crew': ['Stella', 'Nathan']
-	},
-	{
-		'captain_id': 'ssaini',
-		'time_created': "2015-11-12 01:01:05",
-		'departure_time': "2015-11-12 06:01:05",
-		'destination': "McDonalds",
-		'crew': ['Stella', 'Ben', 'Nathan', 'Matt', 'Sahil'],
-	},
-]
-
 def get_all_lunch_ship_presenters():
-	lunch_ship_presenters = []
+	ships = db.session.query(Ship
+		).all()
 
-	for lunch_ship in dummy_time:
-		lunch_ship_presenters.append(LunchShip(
-				captain_id=lunch_ship['captain_id'],
-				time_created=lunch_ship['time_created'],
-				departure_time=lunch_ship['departure_time'],
-				destination=lunch_ship['destination'],
-				crew=lunch_ship['crew']
-			)
-		)
-	return lunch_ship_presenters
+	ship_map = {}
+	for ship in ships:
+		ship_map[ship.id] = LunchShip(
+								captain_id=ship.captain_id,
+								time_created=ship.time_created,
+								departure_time=ship.departure_time,
+								destination=ship.destination,
+								crew=[],
+							)
+
+	crews = db.session.query(Crew
+		).filter(Crew.ship_id in ship_map
+		).all()
+
+	for crew in crews:
+		presenter = ship_map[crew.ship_id]
+		presenter.crew.append(crew.sailor_id)
+
+	return [ship_map[ship_id] for ship_id in ship_map.keys()]
