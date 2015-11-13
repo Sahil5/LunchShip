@@ -10,22 +10,13 @@ from logic import create_ship
 from presentation.ships import get_all_lunch_ship_presenters
 
 @app.route("/")
+@requires_login
 def index():
-    if current_user.is_authenticated:
-        username = current_user.get_id()
-        session['username'] = username
-
-        return redirect(url_for('show_all_ships'))
-
-    login_form = LoginForm(request.form)
-
-    return render_template(
-        "login.html",
-        login_form=login_form
-    )
+    return redirect(url_for('show_all_ships'))
 
 
 @app.route('/new_ship', methods=['GET', 'POST'])
+@requires_login
 def create_new_ship():
     lunch_ship_form = CreateLunchShip(request.form)
 
@@ -49,12 +40,31 @@ def create_new_ship():
 
 
 @app.route('/all_ships')
+@requires_login
 def show_all_ships():
     lunch_ship_presenters = get_all_lunch_ship_presenters()
-    print lunch_ship_presenters
 
-    return render_template("all_ships.html", lunch_ship_presenters=lunch_ship_presenters)
+    # TODO: Add logic for deciding on which projects a person is captain of
+    is_captain = True
 
+    return render_template("all_ships.html",
+        lunch_ship_presenters=lunch_ship_presenters,
+        is_captain=is_captain
+
+    )
+
+@app.route('/join_ship')
+@requires_login
+def join_ship():
+    ## TODO: add logic for joining ship
+    flash('You have just joined a new ship')
+
+    return redirect(url_for('show_all_ships'))
+
+@app.route('/edit_ship')
+@requires_login
+def edit_ship():
+    return render_template("edit_ship.html")
 
 @app.route('/login', methods=['post'])
 def login():

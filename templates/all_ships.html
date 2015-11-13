@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
+    <ul>
+    {% for msg in get_flashed_messages() %}
+        <li>{{ msg }}</li>
+    {% endfor %}
+    </ul>
+
     <h1>Current Lunches</h1>
     <p>
         <a href='/new_ship'>Add New Ship</a>
@@ -8,6 +14,13 @@
     <ul>
         {% for lunch_ship_presenter in lunch_ship_presenters %}
             <li>
+                <p>
+                    {% if is_captain %}
+                        <a href="/edit_ship">Edit</a>
+                    {% else %}
+                        <a href="/join_ship">Join Ship</a>
+                    {% endif %}
+                </p>
                 {{ lunch_ship_presenter.captain_id }}
                 <ul>
                     <li>Created: {{ lunch_ship_presenter.time_created }}</li>
