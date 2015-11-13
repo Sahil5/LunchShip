@@ -1,7 +1,7 @@
 import datetime
 
 from app import app
-from flask import flash, redirect, url_for, request, render_template
+from flask import flash, redirect, url_for, request, render_template, jsonify
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, render_login
 from helpers.forms import LoginForm, AddShip, JoinShip
@@ -53,6 +53,22 @@ def show_all_ships():
     return render_template(
         "all_ships.html",
         sailing_ships=get_all_sailing_ships(),
+    )
+
+
+@app.route('/ships/all/json', methods=['POST'])
+def all_ships_json():
+    ships = get_all_sailing_ships()
+    return jsonify(
+        ships=[
+            {
+                'id': ship.id,
+                'captain_id': ship.captain_id,
+                'destination': ship.destination,
+                'time_created': str(ship.time_created),
+                'depature_time': str(ship.departure_time),
+            } for ship in ships
+        ],
     )
 
 
