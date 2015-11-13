@@ -63,6 +63,22 @@ def get_ships_crewed():
     ).limit(10).all()
 
 
+def get_biggest_ships():
+    count = func.count(Crew.sailor_id)
+    return db.session.query(
+        Ship.destination,
+        Ship.captain_id,
+        count,
+    ).join(
+        Crew,
+        Crew.ship_id == Ship.id,
+    ).group_by(
+        Ship.id,
+    ).order_by(
+        count.desc(),
+    ).limit(10).all()
+
+
 def get_ship_by_id(ship_id):
     return db.session.query(
         Ship
