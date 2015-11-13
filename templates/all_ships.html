@@ -9,24 +9,24 @@
 
     <h1>Current Lunches</h1>
     <ul>
-        {% for lunch_ship_presenter in lunch_ship_presenters %}
+        {% for sailing_ship in sailing_ships %}
             <li>
                 <p>
-                    {% if lunch_ship_presenter.is_captain %}
+                    {% if sailing_ship.is_captain %}
                         <a href="/edit_ship">Edit</a>
                     {% else %}
                         <a href="/join_ship">Join Ship</a>
                     {% endif %}
                 </p>
-                {{ lunch_ship_presenter.captain_id }}
+                {{ sailing_ship.captain_id }}
                 <ul>
-                    <li>Created: {{ lunch_ship_presenter.time_created }}</li>
-                    <li>Departure: {{ lunch_ship_presenter.departure_time }}</li>
-                    <li>Destination: {{ lunch_ship_presenter.destination }}</li>
+                    <li>Created: {{ sailing_ship.time_created }}</li>
+                    <li>Departure: {{ sailing_ship.departure_time }}</li>
+                    <li>Destination: {{ sailing_ship.destination }}</li>
                     <li>Crew:
                         <ul>
-                            {% for crew_member in lunch_ship_presenter.crew %}
-                                <li>{{ crew_member }}</li>
+                            {% for crew_member in sailing_ship.crew %}
+                                <li>{{ crew_member.sailor_id }}</li>
 
                             {% endfor %}
                         </ul>
