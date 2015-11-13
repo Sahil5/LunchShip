@@ -6,7 +6,7 @@ def user_form_handler(form_class, template_name, get_username, data_handler, red
     def handler(*args, **kwargs):
         form = form_class(request.form)
 
-        if request.method == 'GET':
+        if request.method == 'GET' or not form.validate():
             require_login()
             return render_template(
                 template_name,
