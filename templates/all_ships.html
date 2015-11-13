@@ -8,10 +8,20 @@
     <ul>
         {% for lunch_ship_presenter in lunch_ship_presenters %}
             <li>
-                <p>{{ lunch_ship_presenter.time_created }}</p>
-                <p>{{ lunch_ship_presenter.departure_time }}</p>
-                <p>{{ lunch_ship_presenter.destination }}</p>
-                <p>{{ lunch_ship_presenter.crew }}</p>
+                {{ lunch_ship_presenter.captain_id }}
+                <ul>
+                    <li>Created: {{ lunch_ship_presenter.time_created }}</li>
+                    <li>Departure: {{ lunch_ship_presenter.departure_time }}</li>
+                    <li>Destination: {{ lunch_ship_presenter.destination }}</li>
+                    <li>Crew:
+                        <ul>
+                            {% for crew_member in lunch_ship_presenter.crew %}
+                                <li>{{ crew_member }}</li>
+
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
             </li>
         {% endfor %}
     </ul>
