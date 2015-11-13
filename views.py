@@ -72,7 +72,7 @@ def join_ship(ship_id):
     return redirect(url_for('show_all_ships'))
 
 
-@app.route('/ship/<int:ship_id>/join')
+@app.route('/ship/<int:ship_id>/edit')
 @requires_login
 def edit_ship(ship_id):
     return render_template("edit_ship.html")
