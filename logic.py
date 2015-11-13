@@ -76,19 +76,7 @@ def get_biggest_ships():
         Ship.id,
     ).order_by(
         count.desc(),
-    ).limit(10).all()
-
-
-def get_most_popular_destinations():
-    count = func.count(Ship.destination)
-    return db.session.query(
-        Ship.destination,
-        count,
-    ).group_by(
-        Ship.destination,
-    ).order_by(
-        count.desc(),
-    ).limit(10).all()
+    ).limit(5).all()
 
 
 def get_ship_by_id(ship_id):
