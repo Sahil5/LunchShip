@@ -3,8 +3,9 @@ import datetime
 from app import app
 from flask import flash, redirect, url_for, request, render_template, session
 from flask.ext.login import current_user, login_user, logout_user
-from auth import check_auth, requires_login, User
-from helpers.forms import CreateLunchShip, LoginForm, AddShip
+from auth import check_auth, requires_login, User, show_login, require_login
+from helpers.forms import LoginForm, AddShip
+from helpers.view import user_form_handler
 
 from logic import create_ship
 from presentation.ships import get_all_lunch_ship_presenters
@@ -16,45 +17,29 @@ def index():
     return redirect(url_for('show_all_ships'))
 
 
-@app.route('/ship/add', methods=['GET', 'POST'])
-@requires_login
-def create_new_ship():
-    lunch_ship_form = CreateLunchShip(request.form)
-
-    if request.method == 'POST' and lunch_ship_form.validate():
-        create_ship(
-            session["username"],
-            lunch_ship_form.destination.data,
-            datetime.datetime.combine(
-                datetime.date.today(),
-                lunch_ship_form.departure_time.data,
-            ),
-            lunch_ship_form.crew.data,
-        )
-
-        return redirect(url_for('show_all_ships'))
-
-    return render_template(
-        "home.html",
-        lunch_ship_form=lunch_ship_form
-    )
-
-
-@app.route('/ship/add/no_auth', methods=['POST'])
-def add_ship():
-    add_ship_form = AddShip(request.form)
-
+def add_ship_db(username, form):
     create_ship(
-        add_ship_form.captain.data,
-        add_ship_form.destination.data,
+        username,
+        form.destination.data,
         datetime.datetime.combine(
             datetime.date.today(),
-            add_ship_form.departure_time.data,
+            form.departure_time.data,
         ),
-        '',
     )
 
-    return ('', 204)
+
+create_new_ship = user_form_handler(
+    AddShip,
+    "home.html",
+    lambda form: form.captain.data,
+    add_ship_db,
+    'show_all_ships',
+)
+
+
+@app.route('/ship/add', methods=['GET', 'POST'])
+def add_ship():
+    return create_new_ship()
 
 
 @app.route('/ships/all')
@@ -75,7 +60,7 @@ def show_all_ships():
 @app.route('/ship/<int:ship_id>/join')
 @requires_login
 def join_ship(ship_id):
-    ## TODO: add logic for joining ship
+    # TODO: add logic for joining ship
     flash('You have just joined a new ship')
 
     return redirect(url_for('show_all_ships'))
