@@ -1,7 +1,7 @@
 import datetime
 
 from app import app
-from flask import flash, redirect, url_for, request, render_template, session
+from flask import flash, redirect, url_for, request, render_template
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, show_login, require_login
 from helpers.forms import LoginForm, AddShip
@@ -74,14 +74,14 @@ def edit_ship(ship_id):
 
 @app.route('/login', methods=['post'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-
     login_form = LoginForm(request.form)
 
     if login_form.validate():
-        if check_auth(username, password):
-            login_user(User(username))
+        if check_auth(
+            login_form.username.data,
+            login_form.password.data,
+        ):
+            login_user(User(login_form.username.data))
         else:
             flash('Wrong username or password')
     else:

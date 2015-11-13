@@ -58,14 +58,15 @@ def load_user(username):
 def requires_login(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        require_login()
+        if not current_user.is_authenticated:
+            return show_login()
         return f(*args, **kwargs)
     return decorated_function
 
 
 def require_login():
     if not current_user.is_authenticated:
-        show_login()
+        return show_login()
 
 
 def show_login():
