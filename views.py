@@ -13,7 +13,7 @@ def index():
         username = current_user.get_id()
         session['username'] = username
 
-        return redirect(url_for('create_new_ship'))
+        return redirect(url_for('show_all_ships'))
 
     login_form = LoginForm(request.form)
 
