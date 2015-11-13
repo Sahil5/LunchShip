@@ -1,11 +1,11 @@
 import datetime
 
 from wtforms.fields import Field
-from wtforms.widgets import TextInput
+from wtforms.widgets import Input
 
 
 class LunchTimeField(Field):
-    widget = TextInput()
+    widget = Input(input_type='time')
 
     def _value(self):
         return ''
