@@ -14,6 +14,14 @@ class AddShip(Form):
         return self.captain.data
 
 
+class JoinShip(Form):
+    username = TextField('username', [validators.optional()])
+
+    def get_username(self):
+        return self.username.data
+
+
+
 class LoginForm(Form):
     username = TextField('Username', [validators.input_required()])
     password = PasswordField('Password', [validators.input_required()])

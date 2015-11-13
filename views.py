@@ -4,7 +4,7 @@ from app import app
 from flask import flash, redirect, url_for, request, render_template
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, render_login
-from helpers.forms import LoginForm, AddShip
+from helpers.forms import LoginForm, AddShip, JoinShip
 from helpers.view import handle_user_form
 
 from logic import create_ship
@@ -25,7 +25,6 @@ def add_ship():
         'home.html',
         form=AddShip(request.form),
     )
-
 
 def add_ship_db(username, form):
     create_ship(
@@ -57,15 +56,22 @@ def show_all_ships():
     )
 
 
-@app.route('/ship/<int:ship_id>/join')
-@requires_login
-def join_ship(ship_id):
-    flash('You have just joined ship %d' % ship_id)
-    join_lunch_ship(
+@app.route('/ship/<int:ship_id>/join', methods=['GET', 'POST'])
+def join_ship_post(ship_id):
+    def on_success(username, form, ship_id):
+        flash('You have just joined ship %d' % ship_id)
+        join_lunch_ship(
+            ship_id,
+            username,
+        )
+
+    return handle_user_form(
+        JoinShip(request.form),
+        show_all_ships,
+        on_success,
+        'show_all_ships',
         ship_id,
-        current_user.get_id()
     )
-    return redirect(url_for('show_all_ships'))
 
 
 @app.route('/ship/<int:ship_id>/edit')

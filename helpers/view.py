@@ -6,6 +6,8 @@ from flask.ext.login import current_user
 def handle_user_form(form, template_name, data_handler, success_redirect_view, *args, **kwargs):
     if not form.validate():
         if current_user.is_authenticated:
+            if callable(template_name):
+                return template_name()
             return render_template(
                 template_name,
                 form=form,
