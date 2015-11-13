@@ -9,6 +9,7 @@ from helpers.view import user_form_handler
 
 from logic import create_ship
 from logic import join_lunch_ship
+from logic import abandon_lunch_ship
 from logic import get_all_sailing_ships
 
 
@@ -54,9 +55,15 @@ def add_ship_post():
 @app.route('/ships/all')
 @requires_login
 def show_all_ships():
+    sailing_ships = get_all_sailing_ships()
+    for sailing_ship in sailing_ships:
+        for crew_member in sailing_ship.crew:
+            if current_user.get_id() == crew_member.sailor_id:
+                sailing_ship.is_crew_member = True
+
     return render_template(
         "all_ships.html",
-        sailing_ships=get_all_sailing_ships(),
+        sailing_ships=sailing_ships
     )
 
 
@@ -65,6 +72,17 @@ def show_all_ships():
 def join_ship(ship_id):
     flash('You have just joined ship %d' % ship_id)
     join_lunch_ship(
+        ship_id,
+        current_user.get_id()
+    )
+    return redirect(url_for('show_all_ships'))
+
+
+@app.route('/ship/<int:ship_id>/abandon')
+@requires_login
+def abandon_ship(ship_id):
+    flash('You have just abandoned ship %d' % ship_id)
+    abandon_lunch_ship(
         ship_id,
         current_user.get_id()
     )

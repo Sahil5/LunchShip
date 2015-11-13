@@ -21,6 +21,11 @@ def join_lunch_ship(ship_id, sailor_id):
     db.session.commit()
 
 
+def abandon_lunch_ship(ship_id, sailor_id):
+    Crew.query.filter_by(ship_id=ship_id, sailor_id=sailor_id).delete()
+    db.session.commit()
+
+
 def get_all_sailing_ships():
     return db.session.query(
         Ship
