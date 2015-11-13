@@ -15,6 +15,12 @@ def create_ship(captain_id, destination, departure_time):
     db.session.commit()
 
 
+def join_lunch_ship(ship_id, sailor_id):
+    new_crew_member = Crew(ship_id, sailor_id)
+    db.session.add(new_crew_member)
+    db.session.commit()
+
+
 def get_all_sailing_ships():
     return db.session.query(
         Ship

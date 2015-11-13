@@ -8,6 +8,7 @@ from helpers.forms import LoginForm, AddShip
 from helpers.view import user_form_handler
 
 from logic import create_ship
+from logic import join_lunch_ship
 from logic import get_all_sailing_ships
 
 
@@ -62,9 +63,11 @@ def show_all_ships():
 @app.route('/ship/<int:ship_id>/join')
 @requires_login
 def join_ship(ship_id):
-    # TODO: add logic for joining ship
-    flash('You have just joined a new ship')
-
+    flash('You have just joined ship %d' % ship_id)
+    join_lunch_ship(
+        ship_id,
+        current_user.get_id()
+    )
     return redirect(url_for('show_all_ships'))
 
 
