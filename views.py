@@ -56,7 +56,7 @@ def show_all_ships():
     )
 
 
-@app.route('/ships/all/json', methods=['POST'])
+@app.route('/ships/all/json', methods=['GET'])
 def all_ships_json():
     ships = get_all_sailing_ships()
     return jsonify(
