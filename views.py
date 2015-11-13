@@ -17,36 +17,6 @@ def index():
     return redirect(url_for('show_all_ships'))
 
 
-def create_new_ship():
-    add_ship_form = AddShip(request.form)
-
-    if request.method == 'GET':
-        require_login()
-        return render_template(
-            "home.html",
-            add_ship_form=add_ship_form,
-        )
-
-    username = session["username"]
-    if not add_ship_form.captain.data and not username:
-        show_login()
-
-    create_ship(
-        add_ship_form.captain.data or username,
-        add_ship_form.destination.data,
-        datetime.datetime.combine(
-            datetime.date.today(),
-            add_ship_form.departure_time.data,
-        ),
-    )
-
-    if username:
-        return redirect(url_for('show_all_ships'))
-    else:
-        # 204 No Content if from IRC bot
-        return ('', 204)
-
-
 def add_ship_db(username, form):
     create_ship(
         username,
@@ -56,6 +26,7 @@ def add_ship_db(username, form):
             form.departure_time.data,
         ),
     )
+
 
 create_new_ship = user_form_handler(
     AddShip,

@@ -3,7 +3,7 @@ from flask import redirect, url_for, request, render_template, session
 
 
 def user_form_handler(form_class, template_name, get_username, data_handler, redirect_id):
-    def handler():
+    def handler(*args, **kwargs):
         form = form_class(request.form)
 
         if request.method == 'GET':
@@ -17,7 +17,7 @@ def user_form_handler(form_class, template_name, get_username, data_handler, red
         if not get_username(form) and not username:
             show_login()
 
-        data_handler(get_username(form) or username, form)
+        data_handler(get_username(form) or username, form, *args, **kwargs)
 
         if username:
             return redirect(url_for(redirect_id))
