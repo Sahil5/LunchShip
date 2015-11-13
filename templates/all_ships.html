@@ -8,32 +8,36 @@
     </ul>
 
     <h1>Current Lunches</h1>
-    <ul>
         {% for sailing_ship in sailing_ships %}
-            <li>
-                <p>
-                    {% if username == sailing_ship.captain_id %}
-                        <a href="/edit_ship">Edit</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        🚢
+                        {{ sailing_ship.destination }}
+                        @
+                        {{ sailing_ship.departure_time }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <p class="text-muted">
+                        Created by {{ sailing_ship.captain_id }} @ {{ sailing_ship.time_created }}
+                    </p>
+                    <ul class="list-group">
+                        {% for crew_member in sailing_ship.crew %}
+                            <li class="list-group-item">
+                                {% if crew_member.sailor_id == sailing_ship.captain_id %}
+                                    <span class="badge">Captain</span>
+                                {% endif %}
+                                {{ crew_member.sailor_id }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% if current_user.get_id() == sailing_ship.captain_id %}
+                        <a href="/edit_ship" class="btn btn-info">Edit Ship</a>
                     {% else %}
-                        <a href="/join_ship">Join Ship</a>
+                        <a href="/join_ship" class="btn btn-primary">Join Ship</a>
                     {% endif %}
-                </p>
-                {{ sailing_ship.captain_id }}
-                <ul>
-                    <li>Created: {{ sailing_ship.time_created }}</li>
-                    <li>Departure: {{ sailing_ship.departure_time }}</li>
-                    <li>Destination: {{ sailing_ship.destination }}</li>
-                    <li>Crew:
-                        <ul>
-                            {% for crew_member in sailing_ship.crew %}
-                                <li>{{ crew_member.sailor_id }}</li>
-
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
-            </li>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-
 {% endblock %}
