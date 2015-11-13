@@ -4,7 +4,7 @@ from app import app
 from flask import flash, redirect, url_for, request, render_template, session
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User
-from helpers.forms import CreateLunchShip, LoginForm
+from helpers.forms import CreateLunchShip, LoginForm, AddShip
 
 from logic import create_ship
 from presentation.ships import get_all_lunch_ship_presenters
@@ -39,6 +39,23 @@ def create_new_ship():
     )
 
 
+@app.route('/ships/add', methods=['POST'])
+def add_ship():
+    add_ship_form = AddShip(request.form)
+
+    create_ship(
+        add_ship_form.captain.data,
+        add_ship_form.destination.data,
+        datetime.datetime.combine(
+            datetime.date.today(),
+            add_ship_form.departure_time.data,
+        ),
+        '',
+    )
+
+    return ('', 204)
+
+
 @app.route('/all_ships')
 @requires_login
 def show_all_ships():
@@ -52,6 +69,7 @@ def show_all_ships():
         is_captain=is_captain
 
     )
+
 
 @app.route('/join_ship')
 @requires_login
