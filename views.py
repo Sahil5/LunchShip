@@ -16,7 +16,7 @@ def index():
     return redirect(url_for('show_all_ships'))
 
 
-@app.route('/new_ship', methods=['GET', 'POST'])
+@app.route('/ship/add', methods=['GET', 'POST'])
 @requires_login
 def create_new_ship():
     lunch_ship_form = CreateLunchShip(request.form)
@@ -40,7 +40,7 @@ def create_new_ship():
     )
 
 
-@app.route('/ships/add', methods=['POST'])
+@app.route('/ship/add/no_auth', methods=['POST'])
 def add_ship():
     add_ship_form = AddShip(request.form)
 
@@ -72,18 +72,18 @@ def show_all_ships():
     )
 
 
-@app.route('/join_ship')
+@app.route('/ship/<int:ship_id>/join')
 @requires_login
-def join_ship():
+def join_ship(ship_id):
     ## TODO: add logic for joining ship
     flash('You have just joined a new ship')
 
     return redirect(url_for('show_all_ships'))
 
 
-@app.route('/edit_ship')
+@app.route('/ship/<int:ship_id>/join')
 @requires_login
-def edit_ship():
+def edit_ship(ship_id):
     return render_template("edit_ship.html")
 
 
