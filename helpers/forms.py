@@ -10,6 +10,9 @@ class AddShip(Form):
     departure_time = LunchTimeField('Departure Time')
     destination = TextField('Destination', [validators.input_required()])
 
+    def get_username(self):
+        return self.captain.data
+
 
 class LoginForm(Form):
     username = TextField('Username', [validators.input_required()])

@@ -59,20 +59,12 @@ def requires_login(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated:
-            return show_login()
+            return render_login()
         return f(*args, **kwargs)
     return decorated_function
 
 
-def require_login():
-    if not current_user.is_authenticated:
-        return show_login()
-
-
-def show_login():
+def render_login():
     login_form = LoginForm(request.form)
     flash('Please login')
-    return render_template(
-        "login.html",
-        login_form=login_form
-    )
+    return render_template("login.html", login_form=login_form)
