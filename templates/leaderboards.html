@@ -21,7 +21,13 @@
     <ol class="list-group">
         {% for destination, captain, count in biggest_ships %}
             <li class="list-group-item">
-                {{destination}}, captained by {{captain}}, {{count}} crew
+                Sailed to: {{destination}}
+            </li>
+            <li class="list-group-item">
+                Captained by: {{captain}}
+            </li>
+            <li class="list-group-item">
+                Crew size: {{count}}
             </li>
         {% endfor %}
     </ol>
