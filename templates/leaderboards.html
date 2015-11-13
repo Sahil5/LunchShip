@@ -27,4 +27,12 @@
             </li>
         {% endfor %}
     </ol>
+    <h1>Most Popular Destinations</h1>
+    <ol class="list-group">
+        {% for destination, count in popular_destinations %}
+            <li class="list-group-item">
+                {{destination}}: {{count}} voyages
+            </li>
+        {% endfor %}
+    </ol>
 {% endblock %}
