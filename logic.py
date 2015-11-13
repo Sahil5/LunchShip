@@ -91,6 +91,30 @@ def get_biggest_ships():
     ).limit(5).all()
 
 
+def get_most_solo_voyages():
+    count = func.count('*')
+    subquery = db.session.query(
+        Ship.captain_id,
+        count,
+    ).join(
+        Crew,
+    ).group_by(
+        Crew.ship_id,
+    ).having(
+        count == 1,
+    ).subquery('t')
+
+    count2 = func.count('*')
+    return db.session.query(
+        subquery.c.captain_id,
+        func.count('*'),
+    ).group_by(
+        subquery.c.captain_id,
+    ).order_by(
+        count2.desc(),
+    ).limit(10).all()
+
+
 def get_ship_by_id(ship_id):
     return db.session.query(
         Ship

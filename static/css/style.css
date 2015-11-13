@@ -11,7 +11,8 @@ body {
 }
 
 .navbar-default .navbar-brand,
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav>li>a,
+.panel-title {
 	color: white;
 }
 
@@ -19,11 +20,9 @@ body {
 	background-color: #4F4F4F;
 }
 
-.panel-title {
-	color: white;
-}
-
-.header--yelp {
+.header--yelp,
+.lunchship-info,
+.add-input {
 	margin-bottom: 40px;
 }
 
@@ -33,4 +32,17 @@ body {
 
 .badge--lunchship {
 	background-color: #DAA520;
+}
+
+.add-input,
+.action-link--sail {
+	width: 100%;
+}
+
+.add-input:first {
+	margin-top: 15px;
+}
+
+.action-link--sail {
+	font-size: 18px;
 }
