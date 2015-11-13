@@ -12,7 +12,7 @@
         {% for sailing_ship in sailing_ships %}
             <li>
                 <p>
-                    {% if sailing_ship.is_captain %}
+                    {% if username == sailing_ship.captain_id %}
                         <a href="/edit_ship">Edit</a>
                     {% else %}
                         <a href="/join_ship">Join Ship</a>

@@ -1,7 +1,7 @@
 import datetime
 
 from app import app
-from flask import flash, redirect, url_for, request, render_template
+from flask import flash, redirect, session, url_for, request, render_template
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, show_login, require_login
 from helpers.forms import LoginForm, AddShip
@@ -53,13 +53,10 @@ def add_ship_post():
 @app.route('/ships/all')
 @requires_login
 def show_all_ships():
-    # TODO: Add logic for deciding on which projects a person is captain of
-    is_captain = True
-
     return render_template(
         "all_ships.html",
         sailing_ships=get_all_sailing_ships(),
-        is_captain=is_captain,
+        username=session["username"],
     )
 
 
