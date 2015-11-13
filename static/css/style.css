@@ -1,3 +1,36 @@
 body {
 	padding-top: 70px;
 }
+
+.container-fluid {
+    padding: 0 10%;
+}
+
+.navbar {
+	background-color: #c41200;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
+
+.panel--yelp > .panel-heading {
+	background-color: #4F4F4F;
+}
+
+.panel-title {
+	color: white;
+}
+
+.header--yelp {
+	margin-bottom: 40px;
+}
+
+.action-link {
+	background-color: #3b65a7;
+}
+
+.badge--lunchship {
+	background-color: #DAA520;
+}
