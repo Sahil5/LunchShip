@@ -20,12 +20,12 @@ def index():
         login_form=login_form
     )
 
-@app.route("/new_ship", methods=['GET', 'POST'])
+@app.route('/new_ship', methods=['GET', 'POST'])
 def create_new_ship():
     lunch_ship_form = CreateLunchShip(request.form)
 
     if request.method == 'POST' and lunch_ship_form.validate():
-        return render_template("new_ships.html")
+        return render_template("all_ships.html")
 
     return render_template(
         "home.html",
