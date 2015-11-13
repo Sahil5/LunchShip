@@ -4,13 +4,12 @@
 
     {% from "_form_helpers.html" import render_field %}
 
-    <img src="/static/img/pirate-ship.gif">
-
-    <form method=post action="/login">
+    <form method=post action="/login" style="text-align: center;">
+      <img src="/static/img/pirate-ship.gif">
       <dl>
         {{ render_field(login_form.username) }}
         {{ render_field(login_form.password) }}
       </dl>
-      <p><input type=submit value=Register>
+      <p><input type=submit class="btn btn-default" value="Sign In">
     </form>
 {% endblock %}
