@@ -1,3 +1,5 @@
+import datetime
+
 from app import app
 from flask import flash, redirect, url_for, request, render_template, session
 from flask.ext.login import current_user, login_user, logout_user
@@ -22,12 +24,21 @@ def index():
         login_form=login_form
     )
 
+
 @app.route('/new_ship', methods=['GET', 'POST'])
 def create_new_ship():
     lunch_ship_form = CreateLunchShip(request.form)
 
     if request.method == 'POST' and lunch_ship_form.validate():
-        create_ship(session["username"], lunch_ship_form.destination.data, lunch_ship_form.departure_time.data, lunch_ship_form.crew.data)
+        create_ship(
+            session["username"],
+            lunch_ship_form.destination.data,
+            datetime.datetime.combine(
+                datetime.date.today(),
+                lunch_ship_form.departure_time.data,
+            ),
+            lunch_ship_form.crew.data,
+        )
 
         return redirect(url_for('show_all_ships'))
 
@@ -35,6 +46,7 @@ def create_new_ship():
         "home.html",
         lunch_ship_form=lunch_ship_form
     )
+
 
 @app.route('/all_ships')
 def show_all_ships():
