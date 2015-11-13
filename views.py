@@ -57,7 +57,7 @@ def add_ship():
     return ('', 204)
 
 
-@app.route('/all_ships')
+@app.route('/ships/all')
 @requires_login
 def show_all_ships():
     lunch_ship_presenters = get_all_lunch_ship_presenters()
