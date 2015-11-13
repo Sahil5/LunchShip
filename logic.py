@@ -11,15 +11,16 @@ def create_ship(captain_id, destination, departure_time):
     db.session.add(new_ship)
     db.session.commit()
 
-    crew = [crew_member.strip() for crew_member in crew.split(',')]
-    for crew_member in crew:
-        new_crew_member = Crew(new_ship.id, crew_member)
-        db.session.add(new_crew_member)
-    db.session.commit()
+    ## TODO: Add this logic back when accepting crew members upon ship creation
+    # crew = [crew_member.strip() for crew_member in crew.split(',')]
+    # for crew_member in crew:
+    #     new_crew_member = Crew(new_ship.id, crew_member)
+    #     db.session.add(new_crew_member)
+    # db.session.commit()
 
 
 def get_all_sailing_ships():
-    all_ships = db.session.query(Ship).all()
+    all_ships = db.session.query(Ship).order_by(Ship.departure_time).all()
     sailing_ships = []
     for ship in all_ships:
         if time.mktime(ship.departure_time.timetuple()) >= time.mktime(datetime.datetime.now().timetuple()):
