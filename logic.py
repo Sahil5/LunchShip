@@ -48,7 +48,19 @@ def get_ships_captained():
         Ship.captain_id,
     ).order_by(
         count.desc(),
-    ).all()
+    ).limit(10).all()
+
+
+def get_ships_crewed():
+    count = func.count(Crew.sailor_id)
+    return db.session.query(
+        Crew.sailor_id,
+        count,
+    ).group_by(
+        Crew.sailor_id,
+    ).order_by(
+        count.desc(),
+    ).limit(10).all()
 
 
 def get_ship_by_id(ship_id):

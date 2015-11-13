@@ -10,6 +10,7 @@ from logic import join_lunch_ship
 from logic import abandon_lunch_ship
 from logic import get_all_sailing_ships
 from logic import get_ships_captained
+from logic import get_ships_crewed
 from logic import get_ship_by_id
 from logic import edit_ship_by_id
 
@@ -167,6 +168,7 @@ def show_leaderboard():
     return render_template(
         'leaderboards.html',
         ships_captained=get_ships_captained(),
+        ships_crewed=get_ships_crewed(),
     )
 
 
