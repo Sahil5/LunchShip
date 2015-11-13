@@ -66,5 +66,4 @@ def requires_login(f):
 
 def render_login():
     login_form = LoginForm(request.form)
-    flash('Please login')
     return render_template("login.html", login_form=login_form)

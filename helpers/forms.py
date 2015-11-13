@@ -3,6 +3,7 @@ from wtforms import StringField
 from wtforms import Form, PasswordField, TextField, validators
 
 from helpers.fields import LunchTimeField
+from wtforms_components import TimeField
 
 
 class AddShip(Form):
@@ -21,12 +22,11 @@ class JoinShip(Form):
         return self.username.data
 
 
-
 class LoginForm(Form):
     username = TextField('Username', [validators.input_required()])
     password = PasswordField('Password', [validators.input_required()])
 
 
 class EditShip(Form):
-    departure_time = LunchTimeField('Departure Time')
+    departure_time = TimeField('Departure Time')
     destination = TextField('Destination', [validators.input_required()])
