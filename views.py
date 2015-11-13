@@ -10,6 +10,7 @@ from helpers.view import handle_user_form
 from logic import create_ship
 from logic import join_lunch_ship
 from logic import get_all_sailing_ships
+from logic import get_ships_captained
 
 
 @app.route("/")
@@ -94,6 +95,14 @@ def join_ship_post(ship_id):
 @requires_login
 def edit_ship(ship_id):
     return render_template("edit_ship.html")
+
+
+@app.route('/leaderboard')
+def show_leaderboard():
+    return render_template(
+        'leaderboards.html',
+        ships_captained=get_ships_captained(),
+    )
 
 
 @app.route('/login', methods=['post'])

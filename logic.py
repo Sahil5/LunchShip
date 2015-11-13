@@ -4,6 +4,7 @@ import datetime
 from models.ship import Ship
 from models.crew import Crew
 from sqlalchemy.orm import joinedload
+from sqlalchemy import func
 
 
 def create_ship(captain_id, destination, departure_time):
@@ -30,4 +31,16 @@ def get_all_sailing_ships():
         Ship.departure_time > datetime.datetime.now()
     ).order_by(
         Ship.departure_time.asc()
+    ).all()
+
+
+def get_ships_captained():
+    count = func.count(Ship.captain_id)
+    return db.session.query(
+        count,
+        Ship.captain_id,
+    ).group_by(
+        Ship.captain_id,
+    ).order_by(
+        count.desc(),
     ).all()
