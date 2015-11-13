@@ -15,7 +15,7 @@
         {% for lunch_ship_presenter in lunch_ship_presenters %}
             <li>
                 <p>
-                    {% if is_captain %}
+                    {% if lunch_ship_presenter.is_captain %}
                         <a href="/edit_ship">Edit</a>
                     {% else %}
                         <a href="/join_ship">Join Ship</a>
