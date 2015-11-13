@@ -2,7 +2,7 @@ import datetime
 from app import app
 from flask import flash, redirect, url_for, request, render_template, jsonify
 from flask.ext.login import current_user, login_user, logout_user
-from auth import check_auth, requires_login, User, show_login, require_login, render_login
+from auth import check_auth, requires_login, User, render_login
 from helpers.forms import LoginForm, AddShip, EditShip, JoinShip
 from helpers.view import handle_user_form
 from logic import create_ship
