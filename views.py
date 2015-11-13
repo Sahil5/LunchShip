@@ -53,13 +53,9 @@ def add_ship_post():
 @app.route('/ships/all')
 @requires_login
 def show_all_ships():
-    # TODO: Add logic for deciding on which projects a person is captain of
-    is_captain = True
-
     return render_template(
         "all_ships.html",
         sailing_ships=get_all_sailing_ships(),
-        is_captain=is_captain,
     )
 
 
