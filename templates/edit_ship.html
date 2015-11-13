@@ -1,12 +1,71 @@
 {% extends 'base.html' %}
 
 {% block body %}
-	{% from "_form_helpers.html" import render_field %}
-	<form method=post action="{{ '/ship/%d/edit' % ship.id }} ">
-	  <dl>
-	    {{ render_field(form.departure_time) }}
-	    {{ render_field(form.destination) }}
-	  </dl>
-	  <p><input type=submit value=Update>
-	</form>
+    <h1 class="text-center header--yelp">Edit Your Ship</h1>
+
+	<div class='row'>
+		<div class='col-sm-12 col-md-6'>
+		    <div class="panel panel-default panel--yelp">
+		        <div class="panel-heading">
+		            <h3 class="panel-title">
+		                🚢
+		                {{ ship.destination }}
+		                @
+		                {{ ship.departure_time.strftime("%-I:%M %p, %x") }}
+		            </h3>
+		        </div>
+		        <div class="panel-body">
+		            <p class="text-muted">
+		                Created by {{ ship.captain_id }}
+		                @
+		                {{ ship.time_created.strftime("%-I:%M %p, %x") }}
+		            </p>
+		            <ul class="list-group">
+		                {% for crew_member in ship.crew %}
+		                    <li class="list-group-item">
+		                        {% if crew_member.sailor_id == ship.captain_id %}
+		                            <span class="badge badge--lunchship">Captain</span>
+		                        {% endif %}
+		                        {{ crew_member.sailor_id }}
+		                    </li>
+		                {% endfor %}
+		            </ul>
+		        </div>
+		    </div>
+		</div>
+
+		<div class='col-sm-12 col-md-6'>
+			<div class="panel panel-default panel--yelp">
+		        <div class="panel-heading">
+		            <h3 class="panel-title">
+		                Edit Ship
+		            </h3>
+		        </div>
+		        <div class="panel-body">
+					{% from "_form_helpers.html" import render_field %}
+					<form method=post action="{{ '/ship/%d/edit' % ship.id }} ">
+						<div class="row">
+						  <dl>
+						    <div class="col-sm-12">
+						        {{ render_field(form.departure_time, class_='add-input') }}
+						    </div>
+						    <div class="col-sm-12">
+						        {{ render_field(form.destination, class_='add-input') }}
+						    </div>
+						  </dl>
+						</div>
+
+						<div class='row'>
+							<div class="col-sm-offset-4 col-sm-4">
+							    <input class='btn btn-primary action-link action-link--sail' type=submit value="Alter your Course">
+							</div>
+						</div>
+					</form>
+		        </div>
+		    </div>
+
+
+		</div>
+	</div>
+
 {% endblock %}

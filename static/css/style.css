@@ -8,6 +8,7 @@ body {
 
 .navbar {
 	background-color: #c41200;
+	background-image: url('../img/star_header_bg.png');
 }
 
 .navbar-default .navbar-brand,

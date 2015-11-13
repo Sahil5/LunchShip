@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Most Ships Captained</h1>
+    <h1 class='text-center header--yelp'>Davy Jones' Leaderboard</h1>
+
+    <h2>Most Ships Captained</h2>
     <ol class="list-group">
         {% for count, captain in ships_captained %}
             <li class="list-group-item">
@@ -9,7 +11,7 @@
             </li>
         {% endfor %}
     </ol>
-    <h1>Most Ships Joined</h1>
+    <h2>Most Ships Joined</h2>
     <ol class="list-group">
         {% for sailor, count in ships_crewed %}
             <li class="list-group-item">
@@ -17,7 +19,7 @@
             </li>
         {% endfor %}
     </ol>
-    <h1>Biggest Ships</h1>
+    <h2>Biggest Ships</h2>
     <ol class="list-group">
         {% for destination, captain, count in biggest_ships %}
             <li class="list-group-item">
@@ -29,7 +31,7 @@
             </li>
         {% endfor %}
     </ol>
-    <h1>Most Popular Destinations</h1>
+    <h2>Most Popular Destinations</h2>
     <ol class="list-group">
         {% for destination, count in popular_destinations %}
             <li class="list-group-item">
@@ -37,7 +39,7 @@
             </li>
         {% endfor %}
     </ol>
-    <h1>Most Solo Voyages</h1>
+    <h2>Most Solo Voyages</h2>
     <ol class="list-group">
         {% for captain, count in solo_voyages %}
             <li class="list-group-item">
