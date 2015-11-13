@@ -24,6 +24,7 @@
             <ul class="nav navbar-nav navbar--lunchship">
                 <li><a href="/ships/all">View All Ships</a></li>
                 <li><a href="/ship/add">Add New Ships</a></li>
+                <li><a href="/leaderboards">Leaderboards</a></li>
             </ul>
             <ul class="nav navbar-nav navbar--lunchship navbar-right">
                 {% if current_user.is_authenticated %}
@@ -36,6 +37,18 @@
       </div><!-- /.container-fluid -->
     </nav>
 
+    <div class="container-fluid">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-warning">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                        {% for category, message in messages %}
+                            <span>{{message}}</span>
+                        {% endfor %}
+                    </div>
+            {% endif %}
+        {% endwith %}
+    </div>
     <!-- Main content of the page is inserted in block body -->
     <div class="container-fluid">
         {% block body %}
