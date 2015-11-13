@@ -128,10 +128,13 @@ def edit_ship(ship_id):
         flash('This ship already left')
         return redirect(url_for('show_all_ships'))
 
+    form = EditShip()
+    form.destination.data = ship.destination
+    form.departure_time.data = ship.departure_time.time()
     return render_template(
         "edit_ship.html",
         ship=ship,
-        form=EditShip(request.form),
+        form=form,
     )
 
 
