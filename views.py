@@ -1,14 +1,14 @@
 import datetime
 
 from app import app
-from flask import flash, redirect, url_for, request, render_template, session
+from flask import flash, redirect, url_for, request, render_template
 from flask.ext.login import current_user, login_user, logout_user
 from auth import check_auth, requires_login, User, show_login, require_login
 from helpers.forms import LoginForm, AddShip
 from helpers.view import user_form_handler
 
 from logic import create_ship
-from presentation.ships import get_all_lunch_ship_presenters
+from logic import get_all_sailing_ships
 
 
 @app.route("/")
@@ -37,22 +37,28 @@ create_new_ship = user_form_handler(
 )
 
 
-@app.route('/ship/add', methods=['GET', 'POST'])
+@app.route('/ship/add', methods=['GET'])
+@requires_login
 def add_ship():
+    return render_template(
+        'home.html',
+        form=AddShip(request.form),
+    )
+
+@app.route('/ship/add', methods=['POST'])
+def add_ship_post():
     return create_new_ship()
 
 
 @app.route('/ships/all')
 @requires_login
 def show_all_ships():
-    lunch_ship_presenters = get_all_lunch_ship_presenters()
-
     # TODO: Add logic for deciding on which projects a person is captain of
     is_captain = True
 
     return render_template(
         "all_ships.html",
-        lunch_ship_presenters=lunch_ship_presenters,
+        sailing_ships=get_all_sailing_ships(),
         is_captain=is_captain,
     )
 
@@ -74,14 +80,14 @@ def edit_ship(ship_id):
 
 @app.route('/login', methods=['post'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-
     login_form = LoginForm(request.form)
 
     if login_form.validate():
-        if check_auth(username, password):
-            login_user(User(username))
+        if check_auth(
+            login_form.username.data,
+            login_form.password.data,
+        ):
+            login_user(User(login_form.username.data))
         else:
             flash('Wrong username or password')
     else:
