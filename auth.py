@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import app
 from functools import wraps
-from flask import request, Response, session
+from flask import flash, request, Response, session
 from flask import render_template
 from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user
 
@@ -11,6 +11,7 @@ import ldap
 import secrets
 from functools import wraps
 
+from helpers.forms import LoginForm
 
 os.environ['LDAPTLS_REQCERT'] = secrets.LDAPTLS_REQCERT
 os.environ['LDAPTLS_CACERT'] = secrets.LDAPTLS_CACERT
@@ -58,6 +59,11 @@ def requires_login(f):
       @wraps(f)
       def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated:
-           return render_template("login.html")
+            login_form = LoginForm(request.form)
+            flash('Please login')
+            return render_template(
+                "login.html",
+                login_form=login_form
+            )
         return f(*args, **kwargs)
       return decorated_function
