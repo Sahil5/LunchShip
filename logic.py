@@ -29,5 +29,5 @@ def get_all_sailing_ships():
     ).filter(
         Ship.departure_time > datetime.datetime.now()
     ).order_by(
-        Ship.departure_time.desc()
+        Ship.departure_time.asc()
     ).all()
