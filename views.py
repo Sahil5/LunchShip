@@ -13,6 +13,7 @@ from logic import get_ships_captained
 from logic import get_ships_crewed
 from logic import get_biggest_ships
 from logic import get_most_popular_destinations
+from logic import get_most_solo_voyages
 from logic import get_ship_by_id
 from logic import edit_ship_by_id
 
@@ -173,6 +174,7 @@ def show_leaderboard():
         ships_crewed=get_ships_crewed(),
         biggest_ships=get_biggest_ships(),
         popular_destinations=get_most_popular_destinations(),
+        solo_voyages=get_most_solo_voyages(),
     )
 
 

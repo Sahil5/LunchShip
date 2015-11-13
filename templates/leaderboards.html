@@ -37,4 +37,12 @@
             </li>
         {% endfor %}
     </ol>
+    <h1>Most Solo Voyages</h1>
+    <ol class="list-group">
+        {% for captain, count in solo_voyages %}
+            <li class="list-group-item">
+                {{captain}} has been on {{count}} lonely voyages
+            </li>
+        {% endfor %}
+    </ol>
 {% endblock %}
