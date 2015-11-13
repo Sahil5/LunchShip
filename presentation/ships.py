@@ -1,6 +1,7 @@
 from collections import namedtuple
 
 LunchShip = namedtuple('LunchShip', [
+	'captain_id',
 	'time_created',
 	'departure_time',
 	'destination',
@@ -33,6 +34,7 @@ def get_all_lunch_ship_presenters():
 
 	for lunch_ship in dummy_time:
 		lunch_ship_presenters.append(LunchShip(
+				captain_id=lunch_ship['captain_id'],
 				time_created=lunch_ship['time_created'],
 				departure_time=lunch_ship['departure_time'],
 				destination=lunch_ship['destination'],
