@@ -8,9 +8,10 @@ class Ship(db.Model):
     time_created = db.Column(db.DateTime)
     departure_time = db.Column(db.DateTime)
 
-    def __init__(self, captain_id, destination):
+    def __init__(self, captain_id, destination, departure_time):
         self.captain_id = captain_id
         self.destination = destination
+        self.departure_time = departure_time
 
     def __repr__(self):
         return '<Ship(id=%d, destination=%s)>' % (self.id, self.destination)
