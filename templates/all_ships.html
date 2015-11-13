@@ -7,40 +7,40 @@
     {% endfor %}
     </ul>
 
-    <h1>Current Lunches</h1>
-        {% for sailing_ship in sailing_ships %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        #{{ sailing_ship.id }}
-                        🚢
-                        {{ sailing_ship.destination }}
-                        @
-                        {{ sailing_ship.departure_time.strftime("%-I:%M %p, %x") }}
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <p class="text-muted">
-                        Created by {{ sailing_ship.captain_id }}
-                        @
-                        {{ sailing_ship.time_created.strftime("%-I:%M %p, %x") }}
-                    </p>
-                    <ul class="list-group">
-                        {% for crew_member in sailing_ship.crew %}
-                            <li class="list-group-item">
-                                {% if crew_member.sailor_id == sailing_ship.captain_id %}
-                                    <span class="badge">Captain</span>
-                                {% endif %}
-                                {{ crew_member.sailor_id }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% if current_user.get_id() == sailing_ship.captain_id %}
-                        <a href="{{ '/ship/%d/edit' % sailing_ship.id }}" class="btn btn-info">Edit Ship</a>
-                    {% else %}
-                        <a href="{{ '/ship/%d/join' % sailing_ship.id }}" class="btn btn-primary">Join Ship</a>
-                    {% endif %}
-                </div>
+    <h1 class="text-center header--yelp">Current Lunches</h1>
+
+    {% for sailing_ship in sailing_ships %}
+        <div class="panel panel-default panel--yelp">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    🚢
+                    {{ sailing_ship.destination }}
+                    @
+                    {{ sailing_ship.departure_time.strftime("%-I:%M %p, %x") }}
+                </h3>
             </div>
-        {% endfor %}
+            <div class="panel-body">
+                <p class="text-muted">
+                    Created by {{ sailing_ship.captain_id }}
+                    @
+                    {{ sailing_ship.time_created.strftime("%-I:%M %p, %x") }}
+                </p>
+                <ul class="list-group">
+                    {% for crew_member in sailing_ship.crew %}
+                        <li class="list-group-item">
+                            {% if crew_member.sailor_id == sailing_ship.captain_id %}
+                                <span class="badge badge--lunchship">Captain</span>
+                            {% endif %}
+                            {{ crew_member.sailor_id }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% if current_user.get_id() == sailing_ship.captain_id %}
+                    <a href="/edit_ship" class="btn btn-info action-link">Edit Ship</a>
+                {% else %}
+                    <a href="{{ '/ship/%d/join' % sailing_ship.id }}" class="btn btn-primary action-link">Join Ship</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
