@@ -163,7 +163,7 @@ def edit_ship_post(ship_id):
     return redirect(url_for('show_all_ships'))
 
 
-@app.route('/leaderboard')
+@app.route('/leaderboards')
 def show_leaderboard():
     return render_template(
         'leaderboards.html',
