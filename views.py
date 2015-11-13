@@ -8,7 +8,7 @@ from helpers.forms import LoginForm, AddShip
 from helpers.view import user_form_handler
 
 from logic import create_ship
-from presentation.ships import get_all_lunch_ship_presenters
+from logic import get_all_sailing_ships
 
 
 @app.route("/")
@@ -37,22 +37,28 @@ create_new_ship = user_form_handler(
 )
 
 
-@app.route('/ship/add', methods=['GET', 'POST'])
+@app.route('/ship/add', methods=['GET'])
+@requires_login
 def add_ship():
+    return render_template(
+        'home.html',
+        form=AddShip(request.form),
+    )
+
+@app.route('/ship/add', methods=['POST'])
+def add_ship_post():
     return create_new_ship()
 
 
 @app.route('/ships/all')
 @requires_login
 def show_all_ships():
-    lunch_ship_presenters = get_all_lunch_ship_presenters()
-
     # TODO: Add logic for deciding on which projects a person is captain of
     is_captain = True
 
     return render_template(
         "all_ships.html",
-        lunch_ship_presenters=lunch_ship_presenters,
+        sailing_ships=get_all_sailing_ships(),
         is_captain=is_captain,
     )
 
