@@ -67,6 +67,7 @@ def all_ships_json():
                 'destination': ship.destination,
                 'time_created': str(ship.time_created),
                 'depature_time': str(ship.departure_time),
+                'crew': [c.sailor_id for c in ship.crew],
             } for ship in ships
         ],
     )
