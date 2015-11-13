@@ -9,6 +9,7 @@ from helpers.forms import CreateLunchShip, LoginForm, AddShip
 from logic import create_ship
 from presentation.ships import get_all_lunch_ship_presenters
 
+
 @app.route("/")
 @requires_login
 def index():
@@ -64,10 +65,10 @@ def show_all_ships():
     # TODO: Add logic for deciding on which projects a person is captain of
     is_captain = True
 
-    return render_template("all_ships.html",
+    return render_template(
+        "all_ships.html",
         lunch_ship_presenters=lunch_ship_presenters,
-        is_captain=is_captain
-
+        is_captain=is_captain,
     )
 
 
@@ -79,10 +80,12 @@ def join_ship():
 
     return redirect(url_for('show_all_ships'))
 
+
 @app.route('/edit_ship')
 @requires_login
 def edit_ship():
     return render_template("edit_ship.html")
+
 
 @app.route('/login', methods=['post'])
 def login():
