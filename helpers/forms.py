@@ -5,10 +5,10 @@ from wtforms import Form, PasswordField, TextField, validators
 from helpers.fields import LunchTimeField
 
 
-class CreateLunchShip(Form):
+class AddShip(Form):
+    captain = TextField('Captain', [validators.optional()])
     departure_time = LunchTimeField('Departure Time')
     destination = TextField('Destination', [validators.input_required()])
-    crew = TextField('Crew')
 
 
 class LoginForm(Form):

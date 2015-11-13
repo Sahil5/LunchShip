@@ -2,11 +2,10 @@
 
 {% block body %}
 	{% from "_form_helpers.html" import render_field %}
-	<form method=post action="/new_ship">
+	<form method=post action="/ship/add">
 	  <dl>
-	    {{ render_field(lunch_ship_form.departure_time) }}
-	    {{ render_field(lunch_ship_form.destination) }}
-	    {{ render_field(lunch_ship_form.crew) }}
+	    {{ render_field(form.departure_time) }}
+	    {{ render_field(form.destination) }}
 	  </dl>
 	  <p><input type=submit value=Register>
 	</form>
