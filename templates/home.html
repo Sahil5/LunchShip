@@ -1,12 +1,31 @@
 {% extends 'base.html' %}
 
 {% block body %}
-	{% from "_form_helpers.html" import render_field %}
-	<form method=post action="/ship/add">
-	  <dl>
-	    {{ render_field(form.departure_time) }}
-	    {{ render_field(form.destination) }}
-	  </dl>
-	  <p><input type=submit value=Register>
-	</form>
+    <h1 class="text-center header--yelp">Create Your LunchShip!</h1>
+    <div class="row">
+        <p class="col-md-8 col-md-offset-2  lunchship-info">
+            Welcome to LunchShip! Simply add a departure time and destination to create a new ship. Once you create a ship, you are the captain. The more people who join, the higher your ranking on leaderboard. Enjoy!
+        </p>
+    </div>
+
+
+    {% from "_form_helpers.html" import render_field %}
+    <form method=post action="/ship/add">
+        <div class="row">
+          <dl>
+            <div class="col-sm-12 col-md-4 col-md-offset-4">
+                {{ render_field(form.departure_time, class_='add-input') }}
+            </div>
+            <div class="col-sm-12 col-md-4 col-md-offset-4">
+                {{ render_field(form.destination, class_='add-input') }}
+            </div>
+          </dl>
+        </div>
+
+      <div class='row'>
+        <div class="col-sm-offset-4 col-sm-4">
+            <input class='btn btn-primary action-link action-link--sail' type=submit value="Set Sail">
+        </div>
+      </div>
+    </form>
 {% endblock %}
