@@ -15,3 +15,5 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+ssl_context = secrets.SSL_CERT, secrets.SSL_KEY
