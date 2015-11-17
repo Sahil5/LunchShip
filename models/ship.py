@@ -1,3 +1,5 @@
+import datetime
+
 from app import db
 from sqlalchemy.orm import relationship
 
@@ -15,6 +17,7 @@ class Ship(db.Model):
         self.captain_id = captain_id
         self.destination = destination
         self.departure_time = departure_time
+        self.time_created = datetime.datetime.now()
 
     def __repr__(self):
         return '<Ship(id=%d, destination=%s)>' % (self.id, self.destination)
